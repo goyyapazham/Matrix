@@ -138,15 +138,17 @@ public class Matrix {
 	Matrix Paul = new Matrix(3);
 	Matrix Ringo = new Matrix(4);
 
+	/*
 	System.out.println("Matrix John before populating...");
 	System.out.print(John);
 	System.out.println("1, 1 is empty: " + John.isEmpty(1, 1));
+	*/
 	for(int r = 0; r < John.size(); r++) {
 	    for(int c = 0; c < John.size(); c++) {
 	        John.set(r, c, (r + c) % 2);
 	    }
 	}
-
+	/*
 	System.out.println();
 	
 	System.out.println("Matrix John after populating...");
@@ -159,13 +161,14 @@ public class Matrix {
 	System.out.print(George);
 
 	System.out.println();
-
+	*/
 	Matrix Nala = new Matrix();
 	for(int r = 0; r < Nala.size(); r++) {
 	    for(int c = 0; c < Nala.size(); c++) {
 		Nala.set(r, c, John.get(r, c));
 	    }
 	}
+	/*
 	System.out.println("Matrix Nala after populating...");
 	System.out.println(Nala);
 
@@ -179,12 +182,13 @@ public class Matrix {
 	System.out.println(George.equals(Nala));
 
 	System.out.println();
-
+	*/
 	for(int r = 0; r < Paul.size(); r++) {
 	    for(int c = 0; c < Paul.size(); c++) {
 		Paul.set(r, c, (int)(Math.random() * 4) + 1);
 	    }
 	}
+	/*
 	System.out.println("Matrix Paul after populating...");
 	System.out.print(Paul);
 	System.out.println("swap rows 1 and 3...");
@@ -201,12 +205,13 @@ public class Matrix {
 	System.out.println(Paul);
 
 	System.out.println();
-
+	*/
 	for(int r = 0; r < Ringo.size(); r++) {
 	    for(int c = 0; c < Ringo.size(); c++) {
 		Ringo.set(r, c, (int)(Math.random() * 4) + 1);
 	    }
 	}
+	/*
 	System.out.println("Matrix Ringo after populating...");
 	System.out.print(Ringo);
 	System.out.println("swap columns 1 and 3...");
@@ -226,6 +231,18 @@ public class Matrix {
 
 	System.out.println("Paul = Ringo?");
 	System.out.println(Paul.equals(Ringo));
+	*/
+
+	System.out.println("Matrix John...");
+	System.out.println(John);
+	System.out.println("Matrix George...");
+	System.out.println(George);
+	System.out.println("Matrix Paul...");
+	System.out.println(Paul);
+	System.out.println("Matrix Ringo...");
+	System.out.println(Ringo);
+	System.out.println("Matrix Nala...");
+	System.out.println(Nala);
     }
 
 }//end class Matrix
