@@ -41,8 +41,8 @@ public class Matrix {
 
     //return true if this matrix is empty, false otherwise
     private boolean isEmpty( int r, int c ) {
-	return r >= 0 && r < size()
-	    && c >= 0 && c < size()
+	return r >= 0 && r < size() //avoid extraneous inputs
+	    && c >= 0 && c < size() //avoid extraneous inputs
 	    && get(r, c) == null;
     } //O(1)
 
@@ -60,9 +60,9 @@ public class Matrix {
 	String retStr = "";
 	for(int r = 0; r < size(); r++) {
 	    for(int c = 0; c < size(); c++) {
-		retStr += matrix[r][c] + "   ";
+		retStr += matrix[r][c] + "   "; //add item to row
 	    }
-	    retStr += "\n";
+	    retStr += "\n"; //end row
 	}
 	return retStr;
     } //O(n^2)
@@ -72,23 +72,27 @@ public class Matrix {
     // and identical values in each slot
     public boolean equals( Object rightSide ) {
 	boolean retVal = false;
+	//first check for aliasing
 	if (this == rightSide) {
 	    retVal = true;
 	}
+	//otherwise, if the other thing is a Matrix of equal size...
 	else if (rightSide instanceof Matrix
 	    && size() == ( (Matrix)rightSide).size() ) {
-	    Matrix r = (Matrix) rightSide;
+	    Matrix r = (Matrix) rightSide; //for simplicity
 	    retVal = true;
 	    for(int i = 0; i < size(); i++) {
 		for(int j = 0; j < size(); j++) {
+		    //if this cell is full but doesn't equal its equiv cell
 		    if (!isEmpty(i, j)
 			&& (! get(i, j).equals(r.get(i, j)) ) ) {
-			retVal = false;
-			break;
+			retVal = false; //mark false
+			break; //break b/c no way the matrices are =
 		    }
+		    //if this cell is full but its equiv cell is empty
 		    else if( !(isEmpty(i, j)) && r.isEmpty(i, j)) {
-			retVal = false;
-			break;
+			retVal = false; //mark false
+			break; //break b/c no way the matrices are =
 		    }
 		}
 		break;
@@ -102,13 +106,13 @@ public class Matrix {
     //row values increase going down
     //column value increase L-to-R
     public void swapColumns( int c1, int c2  ) {
-	//c1--; c2--;
-	if(c1 >= 0 && c1 < size()
+	//c1--; c2--; //if (1, 1) is top left corner
+	//if c1 and c2 are within bounds...
+ 	if(c1 >= 0 && c1 < size()
 	   && c2 >= 0 && c2 < size()) {
 	    for(int r = 0; r < size(); r++) {
-		Object temp = matrix[r][c2];
-		set(r, c2, matrix[r][c1]);
-		set(r, c1, temp);
+		//swap every item in equiv row
+		set(r, c1, set(r, c2, get(r, c1)));
 	    }
 	}
 	else System.out.println("input out of bounds...try again");
@@ -119,13 +123,13 @@ public class Matrix {
     //row values increase going down
     //column value increase L-to-R
     public void swapRows( int r1, int r2  ) {
-	//r1--; r2--;
+	//r1--; r2--; //if (1, 1) is top left corner
+	//if r1 and r2 are within bounds...
 	if(r1 >= 0 && r1 < size()
 	   && r2 >= 0 && r2 < size()) {
 	    for(int c = 0; c < size(); c++) {
-		Object temp = matrix[r2][c];
-		set(r2, c, matrix[r1][c]);
-		set(r1, c, temp);
+		//swap every item in equiv column
+		set(r1, c, set(r2, c, get(r1, c)));
 	    }
 	}
 	else System.out.println("input out of bounds...try again");
@@ -175,7 +179,31 @@ public class Matrix {
 	    set(r,c,newCol[r]);
 	}
 	return oldCol;
-    }
+    }//O(n)
+
+    public boolean contains(Object o) {
+	for(int r = 0; r < size(); r++) {
+	    for(int c = 0; c < size(); c++) {
+		if (get(r, c).equals(o)) return true;
+	    }
+	}
+	return false;
+    }//O(n^2)
+
+    public void transpose() {
+	for(int r = 0; r < size(); r++) {
+	    for(int c = 0; c < size(); c++) {
+		//to avoid double-swap, only check items above the diag
+		if (c > r) {
+		    set(r, c, set(c, r, get(r, c)));
+		    //set(c, r, get(r, c)) will set other thing to this thing...
+		    //...and then return the other thing's old thing
+		    //so the whole line will set this thing
+		    //to the other thing's old thing
+		}
+	    }
+	}
+    }//O(n^2)
     
     //public void transpose()
     //public boolean contains( Object o )
@@ -259,7 +287,7 @@ public class Matrix {
 		Ringo.set(r, c, (int)(Math.random() * 4) + 1);
 	    }
 	}
-	/*
+	
 	System.out.println("Matrix Ringo after populating...");
 	System.out.print(Ringo);
 	System.out.println("swap columns 1 and 3...");
@@ -279,16 +307,12 @@ public class Matrix {
 
 	System.out.println("Paul = Ringo?");
 	System.out.println(Paul.equals(Ringo));
-	*/
+	
 
 	System.out.println("Matrix John...");
 	System.out.println(John);
 	System.out.println("Matrix George...");
 	System.out.println(George);
-	System.out.println("Matrix Paul...");
-	System.out.println(Paul);
-	System.out.println("Matrix Ringo...");
-	System.out.println(Ringo);
 	System.out.println("Matrix Nala...");
 	System.out.println(Nala);
 	System.out.println( Nala.isFull() );
@@ -318,6 +342,24 @@ public class Matrix {
 	John.setCol(1,newCol);
 	System.out.println("Matrix John changed column 1...");
 	System.out.println(John);
+
+	System.out.println("John contains 4...");
+	System.out.println(John.contains(4));
+
+	System.out.println("John contains 3...");
+	System.out.println(John.contains(3));
+	
+	System.out.println("Matrix Paul...");
+	System.out.println(Paul);
+	System.out.println("Paul transposed...");
+	Paul.transpose();
+	System.out.println(Paul);
+	
+	System.out.println("Matrix Ringo...");
+	System.out.println(Ringo);
+	System.out.println("Ringo transposed...");
+	Ringo.transpose();
+	System.out.println(Ringo);
 	
     }
 
