@@ -11,7 +11,7 @@
    HW54 -- Red vs Blue
    2016-01-05
 */
-
+import java.util.Arrays;
 public class Matrix {
 
     //constant for default matrix size
@@ -131,6 +131,54 @@ public class Matrix {
 	else System.out.println("input out of bounds...try again");
     } //O(n)
 
+    //checks if the matrix is full
+    public boolean isFull() {
+	boolean retBln = true;
+	for(int r = 0; r < size(); r++) {
+	    for(int c = 0; c < size(); c++) {
+		if ( get(r,c) == null ) {//if a value is found to be null will make retBln false and break loop
+		    retBln = false;
+		    break;
+		}
+	    }
+	}
+	return retBln;
+    }//O(n^2)
+
+    //return row r
+    public Object[] getRow( int r ) {
+	return matrix[r];
+    }//O(1)
+
+    //returns old row
+    //sets row r to newRow
+    public Object[] setRow( int r, Object[] newRow ) {
+	Object[] oldRow = getRow(r);
+	matrix[r] = newRow;
+	return oldRow;
+    }//O(1)
+    
+    //returns an object array with all values in column	r
+    public Object[] getCol( int c ) {
+	Object[] col = new Object[size()];
+	for ( int r = 0; r < size(); r++ ) {
+	    col[r] = get(r,c);
+	}
+	return col;
+    }//O(n)
+
+    //returns old col values;
+    //sets col c values to newCol values;
+    public Object[] setCol( int c, Object[] newCol ) {
+	Object[] oldCol = getCol(c);
+	for ( int r = 0; r < size(); r++ ) {
+	    set(r,c,newCol[r]);
+	}
+	return oldCol;
+    }
+    
+    //public void transpose()
+    //public boolean contains( Object o )
     //main method for testing
     public static void main( String[] args ) {
 	Matrix John = new Matrix();
@@ -243,6 +291,34 @@ public class Matrix {
 	System.out.println(Ringo);
 	System.out.println("Matrix Nala...");
 	System.out.println(Nala);
+	System.out.println( Nala.isFull() );
+
+	Nala.set(1,1,null);
+	System.out.println("Matrix Nala...");
+	System.out.println(Nala);
+	System.out.println( Nala.isFull() );
+	System.out.println("Matrix Nala row 1...");
+	System.out.println( Arrays.toString(Nala.getRow(1)) );
+
+	Object[] newRow = new Object[2];
+	newRow[0] = 1;
+	newRow[1] = 4;
+	Nala.setRow(1,newRow);
+	System.out.println("Matrix Nala changed row 1...");
+	System.out.println(Nala);
+	
+	System.out.println("Matrix John...");
+	System.out.println(John);
+	System.out.println("Matrix John column 1...");
+	System.out.println( Arrays.toString(John.getCol(1)) );
+
+	Object[] newCol = new Object[2];
+	newCol[0] = 1;
+	newCol[1] = 4;
+	John.setCol(1,newCol);
+	System.out.println("Matrix John changed column 1...");
+	System.out.println(John);
+	
     }
 
 }//end class Matrix
