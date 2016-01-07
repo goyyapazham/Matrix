@@ -6,10 +6,10 @@
         Test in your main method.
   ====================================*/
 
-/* Nalanda Sharadjaya
+/* Team Keanu Reeves -- Nalanda Sharadjaya and Pardeep Singh
    APCS1 pd9
-   HW54 -- Red vs Blue
-   2016-01-05
+   HW55 -- Don't Think You Are. Know You Are.
+   2016-01-06
 */
 import java.util.Arrays;
 public class Matrix {
